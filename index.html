@@ -532,10 +532,6 @@
       max-width: 400px; margin: 0;
     }
 
-    .contact-strip-actions {
-      display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
-    }
-
     .btn-dark {
       font-size: 0.78rem; font-weight: 600;
       letter-spacing: 0.14em; text-transform: uppercase;
@@ -558,6 +554,32 @@
     }
 
     .btn-outline:hover { background: var(--dark); color: var(--cream); }
+
+    .contact-form {
+      display: flex; flex-direction: column; gap: 1.1rem;
+      width: 100%; max-width: 380px;
+    }
+
+    .contact-form .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .contact-form label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+    }
+
+    .contact-form input, .contact-form textarea {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.92rem; color: var(--dark);
+      background: var(--cream); border: 1px solid var(--border);
+      padding: 0.75rem 0.9rem; outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--gold); }
+
+    .contact-form textarea { min-height: 100px; resize: vertical; font-family: inherit; }
+
+    .contact-form .btn-dark { border: none; cursor: pointer; align-self: flex-start; }
 
     /* ── FOOTER ── */
     footer {
@@ -665,7 +687,7 @@
     <li><a href="#founder">The Founder</a></li>
     <li><a href="#ethos">Ethos</a></li>
   </ul>
-  <a href="mailto:kian@kdsupplylimited.com" class="nav-cta">Get In Touch</a>
+  <a href="#contact" class="nav-cta">Get In Touch</a>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </button>
@@ -676,7 +698,7 @@
   <a href="#brands" onclick="closeMenu()">Our Brands</a>
   <a href="#founder" onclick="closeMenu()">The Founder</a>
   <a href="#ethos" onclick="closeMenu()">Ethos</a>
-  <a href="mailto:kian@kdsupplylimited.com" onclick="closeMenu()">Get In Touch</a>
+  <a href="#contact" onclick="closeMenu()">Get In Touch</a>
 </div>
 
 <!-- HERO -->
@@ -833,16 +855,34 @@
 </section>
 
 <!-- CONTACT STRIP -->
-<div class="contact-strip fu">
+<section id="contact" class="contact-strip fu">
   <div class="contact-strip-text">
     <h3>Let's talk business.</h3>
-    <p>Partnership inquiries, press, or just want to connect &mdash; reach out directly. </p>
+    <p>Partnership inquiries, press, or just want to connect &mdash; send a message and we'll get back to you.</p>
+    <a href="https://shopsynq.ai" target="_blank" rel="noopener" class="btn-outline" style="margin-top:1.75rem;">ShopSynq AI</a>
   </div>
-  <div class="contact-strip-actions">
-    <a href="mailto:kian@kdsupplylimited.com" class="btn-dark">Get In Touch</a>
-    <a href="https://shopsynq.ai" target="_blank" rel="noopener" class="btn-outline">ShopSynq AI</a>
-  </div>
-</div>
+  <form class="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="contact" />
+    <p style="display:none;"><label>Don't fill this out: <input name="bot-field" /></label></p>
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required></textarea>
+    </div>
+
+    <button type="submit" class="btn-dark">Send</button>
+  </form>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -854,7 +894,7 @@
       <a href="https://libertygarageworks.com" target="_blank" rel="noopener">Liberty Garage Works</a>
       <a href="https://shopsynq.ai" target="_blank" rel="noopener">ShopSynq AI</a>
       <a href="https://kdsupply.us" target="_blank" rel="noopener">KD Supply Merch</a>
-      <a href="mailto:kian@kdsupplylimited.com">Contact</a>
+      <a href="#contact">Contact</a>
     </div>
     <div class="footer-copy">&copy; 2026 KD Supply, Limited &middot; Cardington, Ohio &middot; All rights reserved.</div>
   </div>
@@ -876,6 +916,15 @@
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function() {
+      const btn = contactForm.querySelector('.btn-dark');
+      btn.textContent = 'Sending...';
+      btn.style.opacity = '0.7';
+    });
+  }
 </script>
 </body>
 </html>
